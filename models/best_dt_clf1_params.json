@@ -1,0 +1,6 @@
+{
+    "class_weight": null,
+    "max_depth": 5,
+    "max_features": null,
+    "min_samples_split": 2
+}
