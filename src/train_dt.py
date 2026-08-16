@@ -52,10 +52,12 @@ dt_clf_grid_search_1 = train.train(
 
 train.plot_cm(
     dt_clf_grid_search_1.best_estimator_,
-    X_train_time_scaled_iso_score,
-    y_train,
+    X_test_scaled,
+    y_test,
     "reports/dt_cm1.png",
 )
+
+train.calc_metric(logging, dt_clf_grid_search_1.best_estimator_, X_test_scaled, y_test)
 
 
 dt_clf_grid_search_2 = train.train(
@@ -73,7 +75,9 @@ dt_clf_grid_search_2 = train.train(
 
 train.plot_cm(
     dt_clf_grid_search_2.best_estimator_,
-    X_train_time_scaled_iso_score,
-    y_train,
+    X_test_time_scaled_iso_score,
+    y_test,
     "reports/dt_cm2.png",
 )
+
+train.calc_metric(logging, dt_clf_grid_search_2.best_estimator_, X_test_time_scaled_iso_score, y_test)
