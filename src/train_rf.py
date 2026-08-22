@@ -15,10 +15,10 @@ logging.basicConfig(
 
 # Read dataset
 data = np.load("data/preprocessed_data.npz")
-X_train_scaled = data["X_train_scaled"]
-X_test_scaled = data["X_test_scaled"]
-X_train_time_scaled_iso_score = data["X_train_time_scaled_iso_score"]
-X_test_time_scaled_iso_score = data["X_test_time_scaled_iso_score"]
+X_train_scaled = data["X_train_scaled"].astype(np.float16)
+X_test_scaled = data["X_test_scaled"].astype(np.float16)
+X_train_time_scaled_iso_score = data["X_train_time_scaled_iso_score"].astype(np.float16)
+X_test_time_scaled_iso_score = data["X_test_time_scaled_iso_score"].astype(np.float16)
 y_train = data["y_train"]
 y_test = data["y_test"]
 
@@ -26,8 +26,6 @@ y_test = data["y_test"]
 rf_param_grid = {
     "n_estimators": [100, 200],
     "max_depth": [10, 20, 30],
-    "min_samples_split": [2, 5, 10],
-    "min_samples_leaf": [1, 2, 5],
     "max_features": ["sqrt", None],
     "class_weight": [
         None,
@@ -35,14 +33,12 @@ rf_param_grid = {
         "balanced_subsample",
         {0: 1, 1: 2},
         {0: 1, 1: 5},
-        {0: 1, 1: 10},
-        {0: 1, 1: 20},
     ],
     "bootstrap": [True, False],
 }
 
 rf_clf_grid_search_1 = train.train(
-    RandomForestClassifier(random_state=42, n_jobs=2),
+    RandomForestClassifier(random_state=42, n_jobs=-1),
     "rf1",
     rf_param_grid,
     train.scoring,
@@ -54,7 +50,7 @@ rf_clf_grid_search_1 = train.train(
     cv=5,
 )
 
-train.plot_cm(
+train.plot_cm_from_estimator(
     rf_clf_grid_search_1.best_estimator_,
     X_test_scaled,
     y_test,
@@ -62,7 +58,7 @@ train.plot_cm(
 )
 
 rf_clf_grid_search_2 = train.train(
-    RandomForestClassifier(random_state=42, n_jobs=2),
+    RandomForestClassifier(random_state=42, n_jobs=-1),
     "rf2",
     rf_param_grid,
     train.scoring,
@@ -74,7 +70,7 @@ rf_clf_grid_search_2 = train.train(
     cv=5,
 )
 
-train.plot_cm(
+train.plot_cm_from_estimator(
     rf_clf_grid_search_2.best_estimator_,
     X_test_time_scaled_iso_score,
     y_test,

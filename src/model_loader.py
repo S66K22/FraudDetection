@@ -1,6 +1,5 @@
 import joblib
 
-
 MODEL_PATHS = {
     "logistic regression": "models/logistic_regression.pkl",
     "decision tree": "models/decision_tree.pkl",

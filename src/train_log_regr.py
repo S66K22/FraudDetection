@@ -47,7 +47,7 @@ log_reg_grid_search_1 = train.train(
     cv=5,
 )
 
-train.plot_cm(
+train.plot_cm_from_estimator(
     log_reg_grid_search_1.best_estimator_,
     X_test_scaled,
     y_test,
@@ -69,7 +69,7 @@ log_reg_grid_search_2 = train.train(
     cv=5,
 )
 
-train.plot_cm(
+train.plot_cm_from_estimator(
     log_reg_grid_search_2.best_estimator_,
     X_test_time_scaled_iso_score,
     y_test,

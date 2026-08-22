@@ -10,9 +10,9 @@ from .data_prep import (
     scale_dataset,
     split_dataset,
 )
-from .train import deep_model_loop, train
 from .model_loader import load_model
 from .predictor import predict
+from .train import deep_model_loop, train
 
 __all__ = [
     "read_dataset",
@@ -29,5 +29,5 @@ __all__ = [
     "train",
     "deep_model_loop",
     "load_model",
-    "predict"
+    "predict",
 ]
