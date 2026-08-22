@@ -1,0 +1,70 @@
+2026-08-22 23:06:13,472 - INFO - =======================Training X_train_scaled on full dataset=============================
+2026-08-22 23:06:13,642 - INFO - ================ FINAL MODEL TRAINING ================
+2026-08-22 23:06:13,643 - INFO - Architecture: [128, 128]
+2026-08-22 23:06:13,643 - INFO - Training samples: 226980
+2026-08-22 23:06:13,643 - INFO - Epochs: 20
+2026-08-22 23:06:57,511 - INFO - Epoch 1/20, loss=0.0082, accuracy=0.9987, precision=0.8480, recall=0.2804, f1=0.4215, roc_auc=0.9572, pr_auc=0.5980
+2026-08-22 23:07:42,104 - INFO - Epoch 2/20, loss=0.0030, accuracy=0.9994, precision=0.8260, recall=0.7910, f1=0.8081, roc_auc=0.9785, pr_auc=0.7221
+2026-08-22 23:08:26,857 - INFO - Epoch 3/20, loss=0.0029, accuracy=0.9994, precision=0.8352, recall=0.7910, f1=0.8125, roc_auc=0.9814, pr_auc=0.7467
+2026-08-22 23:09:09,744 - INFO - Epoch 4/20, loss=0.0028, accuracy=0.9994, precision=0.8477, recall=0.7804, f1=0.8127, roc_auc=0.9845, pr_auc=0.7498
+2026-08-22 23:09:52,835 - INFO - Epoch 5/20, loss=0.0027, accuracy=0.9994, precision=0.8543, recall=0.7910, f1=0.8214, roc_auc=0.9870, pr_auc=0.7551
+2026-08-22 23:10:36,896 - INFO - Epoch 6/20, loss=0.0027, accuracy=0.9994, precision=0.8547, recall=0.7937, f1=0.8230, roc_auc=0.9868, pr_auc=0.7814
+2026-08-22 23:11:20,392 - INFO - Epoch 7/20, loss=0.0026, accuracy=0.9994, precision=0.8470, recall=0.7910, f1=0.8181, roc_auc=0.9860, pr_auc=0.8159
+2026-08-22 23:12:08,284 - INFO - Epoch 8/20, loss=0.0026, accuracy=0.9994, precision=0.8655, recall=0.7831, f1=0.8222, roc_auc=0.9881, pr_auc=0.8360
+2026-08-22 23:12:55,550 - INFO - Epoch 9/20, loss=0.0025, accuracy=0.9994, precision=0.8739, recall=0.7698, f1=0.8186, roc_auc=0.9881, pr_auc=0.8447
+2026-08-22 23:13:38,662 - INFO - Epoch 10/20, loss=0.0024, accuracy=0.9994, precision=0.8669, recall=0.7751, f1=0.8184, roc_auc=0.9879, pr_auc=0.8522
+2026-08-22 23:14:20,621 - INFO - Epoch 11/20, loss=0.0024, accuracy=0.9995, precision=0.8717, recall=0.7910, f1=0.8294, roc_auc=0.9888, pr_auc=0.8569
+2026-08-22 23:15:05,551 - INFO - Epoch 12/20, loss=0.0023, accuracy=0.9995, precision=0.8776, recall=0.7963, f1=0.8350, roc_auc=0.9876, pr_auc=0.8603
+2026-08-22 23:15:49,969 - INFO - Epoch 13/20, loss=0.0023, accuracy=0.9995, precision=0.8862, recall=0.7831, f1=0.8315, roc_auc=0.9900, pr_auc=0.8592
+2026-08-22 23:16:35,206 - INFO - Epoch 14/20, loss=0.0023, accuracy=0.9995, precision=0.8882, recall=0.7778, f1=0.8293, roc_auc=0.9898, pr_auc=0.8606
+2026-08-22 23:17:17,721 - INFO - Epoch 15/20, loss=0.0022, accuracy=0.9995, precision=0.9248, recall=0.7804, f1=0.8465, roc_auc=0.9891, pr_auc=0.8721
+2026-08-22 23:18:02,264 - INFO - Epoch 16/20, loss=0.0021, accuracy=0.9995, precision=0.9154, recall=0.8016, f1=0.8547, roc_auc=0.9915, pr_auc=0.8776
+2026-08-22 23:18:46,279 - INFO - Epoch 17/20, loss=0.0021, accuracy=0.9996, precision=0.9266, recall=0.8016, f1=0.8596, roc_auc=0.9907, pr_auc=0.8815
+2026-08-22 23:19:30,195 - INFO - Epoch 18/20, loss=0.0021, accuracy=0.9995, precision=0.9072, recall=0.8016, f1=0.8511, roc_auc=0.9909, pr_auc=0.8743
+2026-08-22 23:20:12,834 - INFO - Epoch 19/20, loss=0.0021, accuracy=0.9996, precision=0.9107, recall=0.8095, f1=0.8571, roc_auc=0.9917, pr_auc=0.8791
+2026-08-22 23:20:56,485 - INFO - Epoch 20/20, loss=0.0020, accuracy=0.9995, precision=0.9130, recall=0.7778, f1=0.8400, roc_auc=0.9922, pr_auc=0.8885
+2026-08-22 23:20:56,502 - INFO - Final model saved to models/fraud_model_final.pth
+2026-08-22 23:20:56,502 - INFO - ================ FINAL TEST EVALUATION ================
+2026-08-22 23:21:03,383 - INFO - test_accuracy=0.9994
+2026-08-22 23:21:03,383 - INFO - test_f1=0.8114
+2026-08-22 23:21:03,383 - INFO - test_pr_auc=0.8154
+2026-08-22 23:21:03,383 - INFO - test_precision=0.8875
+2026-08-22 23:21:03,383 - INFO - test_recall=0.7474
+2026-08-22 23:21:03,383 - INFO - test_roc_auc=0.9696
+2026-08-22 23:21:04,496 - INFO - 
+
+=======================Training X_train_time_scaled_iso_score on full dataset=============================
+
+
+2026-08-22 23:21:04,525 - INFO - ================ FINAL MODEL TRAINING ================
+2026-08-22 23:21:04,525 - INFO - Architecture: [128, 128]
+2026-08-22 23:21:04,526 - INFO - Training samples: 226980
+2026-08-22 23:21:04,526 - INFO - Epochs: 20
+2026-08-22 23:21:54,438 - INFO - Epoch 1/20, loss=0.0105, accuracy=0.9974, precision=0.2298, recall=0.2407, f1=0.2351, roc_auc=0.9560, pr_auc=0.2009
+2026-08-22 23:22:34,047 - INFO - Epoch 2/20, loss=0.0031, accuracy=0.9994, precision=0.8357, recall=0.7937, f1=0.8141, roc_auc=0.9804, pr_auc=0.7311
+2026-08-22 23:23:14,754 - INFO - Epoch 3/20, loss=0.0029, accuracy=0.9994, precision=0.8367, recall=0.7725, f1=0.8033, roc_auc=0.9824, pr_auc=0.7640
+2026-08-22 23:23:55,581 - INFO - Epoch 4/20, loss=0.0028, accuracy=0.9994, precision=0.8481, recall=0.7831, f1=0.8143, roc_auc=0.9832, pr_auc=0.7555
+2026-08-22 23:24:38,208 - INFO - Epoch 5/20, loss=0.0027, accuracy=0.9994, precision=0.8442, recall=0.7884, f1=0.8153, roc_auc=0.9855, pr_auc=0.7980
+2026-08-22 23:25:17,946 - INFO - Epoch 6/20, loss=0.0027, accuracy=0.9994, precision=0.8576, recall=0.7804, f1=0.8172, roc_auc=0.9865, pr_auc=0.8092
+2026-08-22 23:25:57,254 - INFO - Epoch 7/20, loss=0.0026, accuracy=0.9994, precision=0.8551, recall=0.7804, f1=0.8160, roc_auc=0.9861, pr_auc=0.8306
+2026-08-22 23:26:36,048 - INFO - Epoch 8/20, loss=0.0026, accuracy=0.9994, precision=0.8391, recall=0.7725, f1=0.8044, roc_auc=0.9862, pr_auc=0.8395
+2026-08-22 23:27:14,948 - INFO - Epoch 9/20, loss=0.0025, accuracy=0.9994, precision=0.8559, recall=0.7698, f1=0.8106, roc_auc=0.9887, pr_auc=0.8539
+2026-08-22 23:27:54,947 - INFO - Epoch 10/20, loss=0.0024, accuracy=0.9995, precision=0.8735, recall=0.7857, f1=0.8273, roc_auc=0.9886, pr_auc=0.8479
+2026-08-22 23:28:10,181 - INFO - Epoch 11/20, loss=0.0024, accuracy=0.9994, precision=0.8680, recall=0.7831, f1=0.8234, roc_auc=0.9905, pr_auc=0.8593
+2026-08-22 23:28:24,403 - INFO - Epoch 12/20, loss=0.0023, accuracy=0.9995, precision=0.8862, recall=0.7831, f1=0.8315, roc_auc=0.9893, pr_auc=0.8622
+2026-08-22 23:28:38,613 - INFO - Epoch 13/20, loss=0.0023, accuracy=0.9995, precision=0.8973, recall=0.7857, f1=0.8378, roc_auc=0.9884, pr_auc=0.8643
+2026-08-22 23:28:52,940 - INFO - Epoch 14/20, loss=0.0022, accuracy=0.9995, precision=0.9018, recall=0.7778, f1=0.8352, roc_auc=0.9896, pr_auc=0.8664
+2026-08-22 23:29:07,333 - INFO - Epoch 15/20, loss=0.0022, accuracy=0.9995, precision=0.8922, recall=0.7884, f1=0.8371, roc_auc=0.9902, pr_auc=0.8711
+2026-08-22 23:29:21,557 - INFO - Epoch 16/20, loss=0.0021, accuracy=0.9995, precision=0.9138, recall=0.7857, f1=0.8450, roc_auc=0.9923, pr_auc=0.8735
+2026-08-22 23:29:36,053 - INFO - Epoch 17/20, loss=0.0022, accuracy=0.9995, precision=0.9136, recall=0.7831, f1=0.8433, roc_auc=0.9913, pr_auc=0.8715
+2026-08-22 23:29:50,484 - INFO - Epoch 18/20, loss=0.0021, accuracy=0.9995, precision=0.9069, recall=0.7989, f1=0.8495, roc_auc=0.9908, pr_auc=0.8780
+2026-08-22 23:30:04,854 - INFO - Epoch 19/20, loss=0.0021, accuracy=0.9995, precision=0.9085, recall=0.7884, f1=0.8442, roc_auc=0.9929, pr_auc=0.8809
+2026-08-22 23:30:19,216 - INFO - Epoch 20/20, loss=0.0020, accuracy=0.9996, precision=0.9184, recall=0.8042, f1=0.8575, roc_auc=0.9928, pr_auc=0.8819
+2026-08-22 23:30:19,219 - INFO - Final model saved to models/fraud_model_final.pth
+2026-08-22 23:30:19,219 - INFO - ================ FINAL TEST EVALUATION ================
+2026-08-22 23:30:21,134 - INFO - test_accuracy=0.9995
+2026-08-22 23:30:21,134 - INFO - test_f1=0.8324
+2026-08-22 23:30:21,134 - INFO - test_pr_auc=0.8176
+2026-08-22 23:30:21,134 - INFO - test_precision=0.9231
+2026-08-22 23:30:21,134 - INFO - test_recall=0.7579
+2026-08-22 23:30:21,134 - INFO - test_roc_auc=0.9664
