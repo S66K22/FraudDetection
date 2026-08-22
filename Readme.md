@@ -35,9 +35,7 @@ It contains:
 
 **Random Forest**.
 
-I expect Random Forest to perform well because it combines multiple decision trees, where each tree is trained using a subset of the data and features. This ensemble approach can make the model more robust and better at capturing complex patterns in fraud transactions.
-
-It can also handle non-linear relationships and, with appropriate `class_weight` settings, can be adapted to imbalanced classification problems.
+I expect Deep Model to perform well because it has great capability of learning non-linear patters and learn more complex patters.
 
 ---
 
@@ -83,11 +81,21 @@ For example:
 ```text
 Feature A: 0.0  → 1.0
 Feature B: 0   → 100,000
+```
 
-Explain in your README.md:
 
-Was your initial hypothesis correct?
-Which model performed best?
-Which metric was most informative?
-How did class imbalance affect the results?
-What was the trade-off between False Positives and False Negatives?
+### 4. Was your initial hypothesis correct?
+My initial hypothesis was partially correct. I expected the Deep Model to perform well because deep neural networks can learn complex non-linear relationships between features. This expectation was supported by the results, as the Deep Model achieved the best overall performance according to PR-AUC. However, Logistic Regression also performed surprisingly well and achieved a higher Recall while requiring significantly less training time and memory
+
+### 5. Which model performed best?
+The Deep Model performed best according to PR-AUC, making it the strongest model for overall fraud detection performance in this experiment. However, Logistic Regression achieved higher Recall and required significantly less computational resources. Therefore, the Deep Model was the best-performing model according to the selected metric, while Logistic Regression may be a more practical choice when computational efficiency and fraud detection Recall are prioritized.
+
+### 6. Which metric was most informative?
+PR-AUC was the most informative metric. Since fraudulent transactions represent only a very small fraction of all transactions, ROC-AUC and especially Accuracy can sometimes give an overly optimistic impression of model performance. PR-AUC focuses more directly on the model's ability to identify the positive class while maintaining reasonable precision.
+
+
+### 7. How did class imbalance affect the results?
+Class imbalance strongly affected the results. Fraudulent transactions represent only a very small portion of the dataset. If the classes are treated equally in the loss function, the large number of legitimate transactions has a much greater influence on the model's learning process. As a result, a model can achieve very high accuracy by mostly predicting transactions as legitimate while still performing poorly at detecting fraud. This is why metrics such as Recall, F1-score, and particularly PR-AUC are more informative for this problem.
+
+### 8. What was the trade-off between False Positives and False Negatives?
+There is a trade-off between False Positives and False Negatives. Improving the detection of fraudulent transactions can increase False Positives, while reducing False Positives can lead to more fraudulent transactions being missed. Therefore, we need to find a suitable balance between detecting fraud and avoiding false alarms.
