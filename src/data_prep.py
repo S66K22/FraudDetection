@@ -111,25 +111,38 @@ def plot_similariy_hist(X, path_to_save):
     plt.close()
 
 
-def scale_dataset(scaler, X_train, X_test):
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+def scale_dataset(scaler, X_train=None, X_test=None):
+    X_train_scaled = None
+    X_test_scaled = None
+    if X_train is not None:
+        X_train_scaled = scaler.fit_transform(X_train)
+    if X_test is not None:
+        X_test_scaled = scaler.transform(X_test)
     return X_train_scaled, X_test_scaled
 
 
-def create_isolation_score(X_train, X_test):
-    X_train_copy = X_train.copy()
-    X_test_copy = X_test.copy()
+def create_isolation_score(X_train=None, X_test=None, isolation_forest=None):
+    if isolation_forest is None and X_train is not None:
+        X_train_copy = X_train.copy()
+        isolation_forest = IsolationForest(random_state=42)
+        outlier_pred = isolation_forest.fit(X_train_copy)
 
-    isolation_forest = IsolationForest(random_state=42)
+    if X_train is not None:
+        X_train_copy["anomaly_score"] = isolation_forest.decision_function(X_train_copy)
 
-    outlier_pred = isolation_forest.fit(X_train_copy)
-    X_train_copy["anomaly_score"] = isolation_forest.decision_function(X_train_copy)
-    X_test_copy["anomaly_score"] = isolation_forest.decision_function(X_test_copy)
+    if X_test is not None:
+        X_test_copy = X_test.copy()
+        X_test_copy["anomaly_score"] = isolation_forest.decision_function(X_test_copy)
+
+        return (
+            None,
+            X_test_copy,
+            isolation_forest,
+        )
 
     return (
         X_train_copy,
-        X_test_copy,
+        None,
         isolation_forest,
     )
 
@@ -169,7 +182,7 @@ if __name__ == "__main__":
 
     # Preprocess time column and use rbf similarity
     X_train_time_scaled_, scaler = preprocess_time_column(X_train)
-    X_test_time_scaled_, _ = preprocess_time_column(X_test)
+    X_test_time_scaled_, _ = preprocess_time_column(X_test, scaler)
     joblib.dump(scaler, "models/time_scaler.pkl")
 
     # Plot similarity histograms
