@@ -2,84 +2,112 @@ import argparse
 import json
 
 import joblib
+import pandas as pd
 import torch
 
-MODEL_FILES = {
-    "logistic regression": {
-        "model": "models/logistic_regression.pkl",
-        "params": "models/logistic_regression_params.json",
-    },
-    "decision tree": {
-        "model": "models/decision_tree.pkl",
-        "params": "models/decision_tree_params.json",
-    },
-    # "random forest": {
-    #     "model": "models/random_forest.pkl",
-    #     "params": "models/random_forest_params.json",
-    # },
-    "knn": {
-        "model": "models/knn.pkl",
-        "params": "models/knn_params.json",
-    },
-    "deep model": {
-        "model": "models/deep_model.pt",
-        "params": "models/deep_model_params.json",
-    },
-}
+from src import (
+    create_isolation_score,
+    create_model,
+    preprocess_time_column,
+    scale_dataset,
+)
 
 
-def load_model(model_name):
-    files = MODEL_FILES[model_name]
-
-    # Load model
-    if model_name == "deep model":
-        model = torch.load(
-            files["model"],
-            weights_only=False,
-        )
-    else:
-        model = joblib.load(files["model"])
-
+def load_deep_model():
+    model = create_model(32, [128, 128])
+    state_dict = torch.load("models/fraud_model_final.pth", weights_only=True)
+    model.load_state_dict(state_dict)
+    model.eval()
     return model
 
 
+def load_input_data(file_path):
+    with open(file_path, "r") as f:
+        data = json.load(f)
+
+    return pd.DataFrame([data])
+
+
+def load_scaler(pathname):
+    return joblib.load(pathname)
+
+
+def deep_predict(model, inputs):
+    model.eval()
+    with torch.no_grad():
+        logits = model(inputs)
+        return torch.sigmoid(logits)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Fraud Detection Model")
 
-    parser.add_argument(
-        "--model",
-        choices=MODEL_FILES.keys(),
-        help="Model to load",
-    )
+    threshold = 0.5
 
-    args = parser.parse_args()
+    # Load model and preprocessing objects only once
+    model = load_deep_model()
+    time_scaler = load_scaler("models/time_scaler.pkl")
+    isolation_forest = load_scaler("models/isolation_forest.pkl")
+    time_iso_scaler = load_scaler("models/time_iso_scaler.pkl")
 
-    # Interactive model selection
-    if args.model is None:
-        models = list(MODEL_FILES.keys())
+    print("Fraud detection model is ready.")
+    print("Enter JSON file path, or 'q' to quit.")
 
-        print("\nAvailable models:")
-        for i, model in enumerate(models, start=1):
-            print(f"{i}. {model}")
+    while True:
 
-        choice = int(input("\nWhich model do you want? "))
+        input_path = input("\nInput JSON file: ").strip()
 
-        if not 1 <= choice <= len(models):
-            parser.error("Invalid model selection.")
+        if input_path.lower() in {"q", "quit", "exit"}:
+            print("Exiting...")
+            break
 
-        model_name = models[choice - 1]
+        try:
+            # Load Dataset
+            X = load_input_data(input_path)
 
-    else:
-        model_name = args.model
+            # Preprocess to create iso time dataset
+            X_time_scaled_, _ = preprocess_time_column(X, time_scaler)
 
-    # Load model and parameters
-    model, params = load_model(model_name)
+            _, X_time_scaled_iso_score_, _ = create_isolation_score(
+                None, X_time_scaled_, isolation_forest
+            )
 
-    print(f"\nModel: {model_name}")
-    print(f"Best parameters: {params}")
+            _, X_time_scaled_iso_score = scale_dataset(
+                time_iso_scaler, None, X_time_scaled_iso_score_
+            )
 
-    return model, params
+            # Make predictions
+
+            probs = deep_predict(model, torch.from_numpy(X_time_scaled_iso_score).float())
+
+            class_id = (probs >= threshold).long()
+            class_id = class_id.item()
+            probs = probs.item()
+
+            prediction1 = "Fraud" if class_id == 1 else "Non-Fraud"
+
+            result_dict = {
+                "prediction": prediction1,
+                "class_id": class_id,
+                "probability": probs,
+                "threshold": threshold,
+                "status": "success",
+            }
+
+            print("\nPrediction using time + isolation features:")
+            print(result_dict)
+
+        except Exception as e:
+            print(f"\nPrediction failed: {e}")
+            print(
+                {
+                    "prediction": 0,
+                    "class_id": -1,
+                    "probability": -1,
+                    "threshold": threshold,
+                    "status": "failure",
+                }
+            )
 
 
 if __name__ == "__main__":
-    model, params = main()
+    main()
