@@ -634,10 +634,10 @@ def train_deep_model_on_full_train(
     return model, history, test_metrics
 
 
-import torch
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import numpy as np
+import torch
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 
 
 def plot_confusion_matrix(

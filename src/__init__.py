@@ -12,7 +12,7 @@ from .data_prep import (
 )
 from .model_loader import load_model
 from .predictor import predict
-from .train import deep_model_loop, train
+from .train import create_model, deep_model_cv, train
 
 __all__ = [
     "read_dataset",
@@ -27,7 +27,8 @@ __all__ = [
     "scale_dataset",
     "create_isolation_score",
     "train",
-    "deep_model_loop",
+    "deep_model_cv",
     "load_model",
     "predict",
+    "create_model",
 ]
