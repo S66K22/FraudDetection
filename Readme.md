@@ -107,3 +107,53 @@ Class imbalance strongly affected the results. Fraudulent transactions represent
 
 ### 9. What was the trade-off between False Positives and False Negatives?
 There is a trade-off between False Positives and False Negatives. Improving the detection of fraudulent transactions can increase False Positives, while reducing False Positives can lead to more fraudulent transactions being missed. Therefore, we need to find a suitable balance between detecting fraud and avoiding false alarms.
+
+## Confusion Matrix Analysis
+
+The confusion matrices below show how each model classifies legitimate and fraudulent transactions.
+
+**Confusion matrix for standard scaled dataset**
+![Logistic Regression Confusion Matrix](reports/log_regr_cm1.png)
+
+**Confusion matrix for time iso dataset**
+![Logistic Regression Confusion Matrix](reports/log_regr_cm2.png)
+
+### Logistic Regression
+
+---
+**Confusion matrix for standard scaled dataset**
+![Decision Tree Confusion Matrix](reports/dt_cm1.png)
+
+**Confusion matrix for time iso dataset**
+![Decision Tree Confusion Matrix](reports/dt_cm2.png)
+
+
+### Decision Tree
+
+---
+
+**Confusion matrix for standard scaled dataset**
+![KNN Confusion Matrix](reports/knn_cm1.png)
+
+**Confusion matrix for time iso dataset**
+![KNN Confusion Matrix](reports/knn_cm2.png)
+
+### KNN
+
+---
+
+**Confusion matrix for standard scaled dataset**
+![Deep Model Confusion Matrix](reports/deep_model1.png)
+
+**Confusion matrix for time iso dataset**
+![Deep Model Confusion Matrix](reports/deep_model2.png)
+
+### Deep Model
+
+---
+
+### Overall Comparison
+
+The confusion matrices highlight the trade-off between detecting fraudulent transactions and incorrectly flagging legitimate transactions. Models with fewer false negatives are better at identifying fraud, but this may come at the cost of increasing false positives. Conversely, a model with fewer false positives may provide a smoother experience for legitimate customers but potentially miss more fraudulent transactions.
+
+Therefore, the confusion matrices should be interpreted together with precision, recall, F1-score, and PR-AUC rather than accuracy alone. In this highly imbalanced dataset, recall for the fraud class is particularly important because false negatives represent fraudulent transactions that the system failed to detect.
