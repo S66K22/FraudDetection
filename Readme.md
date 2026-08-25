@@ -132,50 +132,249 @@ There is a trade-off between False Positives and False Negatives. Improving the 
 
 ## Confusion Matrix Analysis
 
-The confusion matrices below show how each model classifies legitimate and fraudulent transactions.
+The confusion matrices below show how each model classifies legitimate and fraudulent transactions. In addition to the confusion matrices, the best hyperparameters found during model tuning and the final performance on the test data are reported for each model.
 
-**Confusion matrix for standard scaled dataset**
-![Logistic Regression Confusion Matrix](reports/log_regr_cm1.png)
+Because the dataset is highly imbalanced, **Recall, Precision, F1-score, and PR-AUC** are particularly important when evaluating fraud detection performance.
 
-**Confusion matrix for time iso dataset**
-![Logistic Regression Confusion Matrix](reports/log_regr_cm2.png)
+---
 
 ### Logistic Regression
 
+#### Best Hyperparameters
+
+| Dataset | Best Parameters |
+|---|---|
+| Standard-scaled dataset (`log_regr1`) | `C=1`, `class_weight={0: 1, 1: 5}` |
+| Time/Isolation-Forest dataset (`log_regr2`) | `C=10`, `class_weight={0: 1, 1: 5}` |
+
+#### Test Performance
+
+| Metric | Standard-scaled (`log_regr1`) | Time/Isolation-Forest (`log_regr2`) |
+|---|---:|---:|
+| Accuracy | 0.9993 | 0.9993 |
+| Precision | 0.8256 | 0.8256 |
+| Recall | 0.7474 | 0.7474 |
+| F1-score | 0.7845 | 0.7845 |
+| ROC-AUC | 0.9627 | 0.9690 |
+| PR-AUC | 0.7004 | 0.7046 |
+
+**Test-set interpretation:**  
+Logistic Regression achieved very high Accuracy and ROC-AUC on both datasets. Its Recall of **0.7474** means that it detected approximately 75% of the fraudulent transactions. The feature-engineered dataset produced a slightly higher ROC-AUC and PR-AUC, suggesting a small improvement in the model's ability to rank fraudulent transactions above legitimate ones.
+
+**Confusion matrix for standard-scaled dataset**
+
+![Logistic Regression Confusion Matrix](reports/log_regr_cm1.png)
+
+**Confusion matrix for time/Isolation-Forest dataset**
+
+![Logistic Regression Confusion Matrix](reports/log_regr_cm2.png)
+
 ---
-**Confusion matrix for standard scaled dataset**
-![Decision Tree Confusion Matrix](reports/dt_cm1.png)
-
-**Confusion matrix for time iso dataset**
-![Decision Tree Confusion Matrix](reports/dt_cm2.png)
-
 
 ### Decision Tree
 
+#### Best Hyperparameters
+
+| Dataset | Best Parameters |
+|---|---|
+| Standard-scaled dataset (`dt1`) | `class_weight=None`, `max_depth=5`, `max_features=None`, `min_samples_split=2` |
+| Time/Isolation-Forest dataset (`dt2`) | `class_weight=None`, `max_depth=5`, `max_features=None`, `min_samples_split=2` |
+
+#### Test Performance
+
+| Metric | Standard-scaled (`dt1`) | Time/Isolation-Forest (`dt2`) |
+|---|---:|---:|
+| Accuracy | 0.9993 | 0.9994 |
+| Precision | 0.8816 | 0.9041 |
+| Recall | 0.7053 | 0.6947 |
+| F1-score | 0.7836 | 0.7857 |
+| ROC-AUC | 0.9060 | 0.8955 |
+| PR-AUC | 0.6416 | 0.6623 |
+
+**Test-set interpretation:**  
+The Decision Tree achieved very high Accuracy on both datasets. The feature-engineered dataset improved Precision from **0.8816 to 0.9041** and slightly improved F1-score from **0.7836 to 0.7857**. However, Recall decreased from **0.7053 to 0.6947**, meaning that the feature-engineered version detected slightly fewer fraudulent transactions. The PR-AUC increased from **0.6416 to 0.6623**, indicating an improvement in the overall precision-recall trade-off.
+
+**Confusion matrix for standard-scaled dataset**
+
+![Decision Tree Confusion Matrix](reports/dt_cm1.png)
+
+**Confusion matrix for time/Isolation-Forest dataset**
+
+![Decision Tree Confusion Matrix](reports/dt_cm2.png)
+
 ---
-
-**Confusion matrix for standard scaled dataset**
-![KNN Confusion Matrix](reports/knn_cm1.png)
-
-**Confusion matrix for time iso dataset**
-![KNN Confusion Matrix](reports/knn_cm2.png)
 
 ### KNN
 
+#### Best Hyperparameters
+
+| Dataset | Best Parameters |
+|---|---|
+| Standard-scaled dataset (`knn1`) | `n_neighbors=9`, `p=1`, `weights='distance'` |
+| Time/Isolation-Forest dataset (`knn2`) | `n_neighbors=7`, `p=1`, `weights='distance'` |
+
+#### Test Performance
+
+| Metric | Standard-scaled (`knn1`) | Time/Isolation-Forest (`knn2`) |
+|---|---:|---:|
+| Accuracy | 0.9995 | 0.9995 |
+| Precision | 0.9571 | 0.9571 |
+| Recall | 0.7053 | 0.7053 |
+| F1-score | 0.8121 | 0.8121 |
+| ROC-AUC | 0.9051 | 0.8998 |
+| PR-AUC | 0.7892 | 0.7855 |
+
+**Test-set interpretation:**  
+KNN achieved the highest test Precision among the three reported models, at **0.9571**, while maintaining a Recall of **0.7053**. Its F1-score was **0.8121** for both datasets. The standard-scaled dataset produced slightly better ROC-AUC and PR-AUC than the feature-engineered dataset, suggesting that the additional time-based features did not improve KNN's overall test performance.
+
+**Confusion matrix for standard-scaled dataset**
+
+![KNN Confusion Matrix](reports/knn_cm1.png)
+
+**Confusion matrix for time/Isolation-Forest dataset**
+
+![KNN Confusion Matrix](reports/knn_cm2.png)
+
 ---
 
-**Confusion matrix for standard scaled dataset**
-![Deep Model Confusion Matrix](reports/deep_model1.png)
-
-**Confusion matrix for time iso dataset**
-![Deep Model Confusion Matrix](reports/deep_model2.png)
+### Deep Model
 
 ### Deep Model
+
+A fully connected neural network was developed for fraud detection. The model architecture was selected through a **5-fold cross-validation experiment**.
+
+Five different hidden-layer configurations were evaluated:
+
+- `[32, 32]`
+- `[64, 32]`
+- `[64, 64]`
+- `[128, 64]`
+- `[128, 128]`
+
+The architecture **[128, 128]** was selected as the best-performing configuration based on the cross-validation experiments. The final network therefore consists of two hidden layers with 128 neurons each and a single output neuron.
+
+#### Final Architecture
+
+```text
+Input
+  │
+  ▼
+Dense Layer (128 neurons)
+  │
+  ▼
+Dense Layer (128 neurons)
+  │
+  ▼
+Output Layer (1 neuron, Sigmoid)
+```
+
+The Sigmoid output produces a probability between 0 and 1, which is used to determine whether a transaction is legitimate or fraudulent.
+
+The architecture was evaluated using **5-fold cross-validation**, with **PR-AUC** used as the primary criterion for selecting the best model during training. The best-performing epoch was retained for each fold based on validation PR-AUC. This approach helps select a model that performs well on the minority fraud class rather than relying solely on Accuracy, which can be misleading for this highly imbalanced dataset. :contentReference[oaicite:0]{index=0}
+
+#### Cross-Validation Results
+
+During cross-validation, the model was evaluated using Accuracy, Precision, Recall, F1-score, ROC-AUC, and PR-AUC. For example, one of the selected folds achieved:
+
+| Metric | Validation Result |
+|---|---:|
+| Accuracy | 0.9994 |
+| Precision | 0.8400 |
+| Recall | 0.8289 |
+| F1-score | 0.8344 |
+| ROC-AUC | 0.9811 |
+| PR-AUC | 0.8056 |
+
+The best epoch for this fold was selected based on its validation PR-AUC, with the best recorded value being **0.8121**. :contentReference[oaicite:1]{index=1}
+
+#### Final Model: Standard-Scaled Features
+
+**Architecture**: `[128, 128]`
+
+**Training samples**: `226,980`
+
+**Epochs**: `20`
+
+The final model achieved the following performance on the test set:
+
+| Metric | Test Result |
+|---|---:|
+| Accuracy | 0.9994 |
+| Precision | 0.8875 |
+| Recall | 0.7474 |
+| F1-score | 0.8114 |
+| ROC-AUC | 0.9696 |
+| PR-AUC | 0.8154 |
+
+The model achieved 99.94% accuracy on the test set. More importantly for this highly imbalanced fraud-detection problem, it achieved a 74.74% Recall, meaning that it detected approximately three-quarters of the fraudulent transactions. Its Precision of 88.75% indicates that most transactions classified as fraudulent were actually fraudulent.
+
+The model achieved a ROC-AUC of 0.9696 and a PR-AUC of 0.8154, demonstrating strong discrimination between fraudulent and legitimate transactions
+
+
+#### Final Model: Time + Isolation Forest Features
+
+**Architecture**: `[128, 128]`
+
+**Training samples**: `226,980`
+
+**Epochs**: `20`
+
+| Metric | Test Result |
+|---|---:|
+| Accuracy | 0.9995 |
+| Precision | 0.9231 |
+| Recall | 0.7579 |
+| F1-score | 0.8324 |
+| ROC-AUC | 0.9664 |
+| PR-AUC | 0.8176 |
+
+The addition of the time-related features and Isolation Forest score improved the model's test performance in several important metrics. Accuracy increased from 0.9994 to 0.9995, Precision increased from 0.8875 to 0.9231, Recall increased from 0.7474 to 0.7579, and F1-score increased from 0.8114 to 0.8324.
+
+PR-AUC also increased slightly from 0.8154 to 0.8176, indicating a small improvement in the precision-recall trade-off. However, ROC-AUC decreased slightly from 0.9696 to 0.9664.
+
+Overall, the feature-engineered representation produced the stronger test performance according to Precision, Recall, F1-score, and PR-AUC.
+
+**Confusion matrix**
+
+![Deep Model Confusion Matrix](reports/deep_model1.png)
 
 ---
 
 ### Overall Comparison
 
-The confusion matrices highlight the trade-off between detecting fraudulent transactions and incorrectly flagging legitimate transactions. Models with fewer false negatives are better at identifying fraud, but this may come at the cost of increasing false positives. Conversely, a model with fewer false positives may provide a smoother experience for legitimate customers but potentially miss more fraudulent transactions.
+The test results show that all three reported models achieved very high Accuracy, ranging from **0.9993 to 0.9995**. However, Accuracy alone does not provide a complete picture because fraudulent transactions represent only a very small fraction of the dataset.
 
-Therefore, the confusion matrices should be interpreted together with precision, recall, F1-score, and PR-AUC rather than accuracy alone. In this highly imbalanced dataset, recall for the fraud class is particularly important because false negatives represent fraudulent transactions that the system failed to detect.
+Among these models, **KNN achieved the highest test Precision (0.9571) and F1-score (0.8121)**. This means that when KNN classified a transaction as fraudulent, it was highly likely to actually be fraudulent, while still detecting approximately 70.5% of fraudulent transactions.
+
+**Logistic Regression achieved the highest Recall (0.7474)** among the three models, meaning it detected a larger proportion of fraudulent transactions. It also achieved substantially higher ROC-AUC than KNN and Decision Tree.
+
+The Decision Tree achieved intermediate Precision and Recall values. Its feature-engineered version improved PR-AUC from **0.6416 to 0.6623**, although its Recall decreased slightly.
+
+Overall, the results demonstrate the trade-off between **False Positives and False Negatives**. A model that detects more fraudulent transactions may also incorrectly flag more legitimate transactions. Therefore, the confusion matrices should be interpreted together with **Precision, Recall, F1-score, ROC-AUC, and especially PR-AUC**, rather than Accuracy alone.
+
+For this fraud detection problem, **Recall remains particularly important because a False Negative represents a fraudulent transaction that the model failed to detect**.
+
+---
+
+
+### I would also update the overall comparison
+
+With these final deep-model results, the README's overall comparison should mention that the deep model is competitive with the other models:
+
+
+### Overall Comparison
+
+The test results show that all models achieved very high Accuracy. However, because the dataset is highly imbalanced, Accuracy alone is not sufficient for evaluating fraud detection performance. Precision, Recall, F1-score, ROC-AUC, and PR-AUC provide a more informative assessment.
+
+The final `[128, 128]` Deep Model achieved its best overall test performance when trained using the time-related features and Isolation Forest score, reaching:
+
+- **99.95% Accuracy**
+- **92.31% Precision**
+- **75.79% Recall**
+- **83.24% F1-score**
+- **96.64% ROC-AUC**
+- **81.76% PR-AUC**
+
+Among the reported models, the Deep Model with the time and Isolation Forest features achieved the highest F1-score and the highest PR-AUC. KNN achieved a higher Precision of 95.71%, while Logistic Regression achieved the highest Recall of 74.74% among the traditional models.
+
+The results demonstrate the trade-off between Precision and Recall in fraud detection. Since a False Negative represents a fraudulent transaction that was not detected, Recall is particularly important. At the same time, high Precision is desirable because excessive False Positives can cause legitimate transactions to be incorrectly flagged as fraudulent.
