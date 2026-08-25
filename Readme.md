@@ -29,6 +29,28 @@ It contains:
 
 ---
 
+## Feature Engineering
+
+### Time Feature Analysis
+
+The `Time` feature showed a bimodal distribution, with two distinct modes. This suggests that the transaction times are not distributed uniformly and that the distance of a transaction from these two modes may contain useful information for fraud detection.
+
+![Time Feature Distribution](reports/dataset_hist.png)
+
+To capture this structure, I created two new features using kernel-based similarity functions. Each feature represents the similarity of a transaction's `Time` value to one of the two identified modes.
+
+In addition, I used **Isolation Forest** to generate an anomaly-related feature. This feature provides the models with additional information about how unusual a transaction is compared with the rest of the dataset.
+
+The resulting feature-engineered dataset therefore contains:
+
+- Two kernel-based similarity features derived from `Time`.
+- One Isolation Forest anomaly feature.
+- The original `Time` feature removed after extracting the relevant information from it.
+
+This feature-engineered dataset is provided alongside the standard-scaled dataset, allowing the models to be evaluated and compared using both feature representations.
+
+---
+
 ## 🎯 Guiding Questions
 
 ### 1. Which model do you expect to perform best for fraud detection? Why?
