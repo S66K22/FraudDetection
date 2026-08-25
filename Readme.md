@@ -356,12 +356,6 @@ For this fraud detection problem, **Recall remains particularly important becaus
 
 ---
 
-
-### I would also update the overall comparison
-
-With these final deep-model results, the README's overall comparison should mention that the deep model is competitive with the other models:
-
-
 ### Overall Comparison
 
 The test results show that all models achieved very high Accuracy. However, because the dataset is highly imbalanced, Accuracy alone is not sufficient for evaluating fraud detection performance. Precision, Recall, F1-score, ROC-AUC, and PR-AUC provide a more informative assessment.
